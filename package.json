@@ -1,0 +1,35 @@
+{
+  "name": "chat-app-api",
+  "version": "1.0.0",
+  "description": "RESTful chatapp api",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonaSoliman/chat-app-api.git"
+  },
+  "keywords": [
+    "chat",
+    "app"
+  ],
+  "author": "Simona Soliman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonaSoliman/chat-app-api/issues"
+  },
+  "homepage": "https://github.com/simonaSoliman/chat-app-api#readme",
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  },
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "goodeggs-mongoose-timestamps": "^1.0.0",
+    "mongoose": "^5.1.4"
+  }
+}
