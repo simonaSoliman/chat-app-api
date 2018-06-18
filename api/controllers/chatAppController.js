@@ -1,36 +1,31 @@
 var mongoose = require('mongoose'),
 User = require('../models/user'),
+fs = require('fs');
 Message = require('../models/message');
 
 //listing all user contacts
-//for test send in request json object: {"userId":"5b1bba6e15b8bf210e0a9870"}
+//for testing put user Id here
 exports.list_all_contacts = function(req, res) {
-  User.find({_id:req.body.userId}).populate('contacts').exec(function(err, contacts) {
+  req.body.userId ="5b1f7aa507eaef167c51ac94";
+  User.findOne({_id:req.body.userId}).populate({path: 'contacts'}).exec(function(err, user) {
     if (err)
       res.send(err);
-    var result = {};
-    for (var i = 0; i < contacts.length; ++i)
-      result[i] = contacts[i].email;
-    res.json(result);
+    // res.json({status:200, message:'success', data:result});
+    res.json(user.contacts);
   });
 };
 
 
 
-
+//save the message that sent from user to another one
 exports.send = function(req, res) {
-  //we will send token from the front end to use user._id, but now we will
-  //find user because we don;t have token yet
-  // for test; {"sender":"simona@soliman.com",
-  //            "message":"hi simonaaa"} >> request body form
   var new_message = new Message(req.body);
-  User.findOne({email:req.body.sender}).exec(function(err, user){
+  User.findOne({_id:req.body.sender}).exec(function(err, user){
     if (user) {
-      new_message.sender = user._id;
-      new_message.receiver = req.params.userId;
       new_message.save(function(err, msg) {
         if (err)
           res.send(err);
+        // res.json({status:200, message:'success', data:msg});
         res.json(msg);
       });
     }else{
@@ -41,12 +36,43 @@ exports.send = function(req, res) {
   
 };
 
-
+//get single chat history messages
 exports.chat_history = function(req, res) {
-  //find all messages related to this two users
+  req.params.currentUser ="5b1f7aa507eaef167c51ac94";
+  var user_id = mongoose.Types.ObjectId(req.params.userId);
   Message.find({ $or:[ {'receiver':req.params.userId, 'sender':req.params.currentUser}, {'sender':req.params.userId,'receiver' :req.params.currentUser}]}, function(err, messages) {
-    if (err)
+    if (err){
+      console.log(err)
       res.send(err);
-    res.json(messages);
+    }else{
+      // res.json({status:200, message:'success', data:messages})
+      // io.on('connection', function(socket){
+      //   console.log('a user connected');
+        res.json(messages)
+      // });
+      
+    }
   });
 };
+
+//upload single file to be saved and save it as a message but it still have issue I will resolve it
+exports.upload = function(req, res){
+  var message_id= '';
+  var dirname = "uploads/images/uploads/"+message_id;
+    if (!fs.existsSync(dirname)){
+        fs.mkdirSync(dirname);
+    }
+
+    var im_parts = ffileToUpload.name.split('.');  
+    var ts = Math.round(new Date().getTime()/1000)
+    var dirnameResize = dirname + "/" + im_parts[0] + ts +"."+ im_parts[1];
+    fs.writeFile(dirnameResize,fileToUpload,(err) => {
+        if (err)
+            return cb(err, "")
+            dirname = process.env.HOST_NAME+"/images/"+model_path+"/"+id+"/"+ im_parts[0] + ts +"."+ im_parts[1];
+            return cb(null, dirname)
+
+        
+    });
+
+}
