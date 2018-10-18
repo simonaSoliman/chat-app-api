@@ -55,24 +55,4 @@ exports.chat_history = function(req, res) {
   });
 };
 
-//upload single file to be saved and save it as a message but it still have issue I will resolve it
-exports.upload = function(req, res){
-  var message_id= '';
-  var dirname = "uploads/images/uploads/"+message_id;
-    if (!fs.existsSync(dirname)){
-        fs.mkdirSync(dirname);
-    }
 
-    var im_parts = ffileToUpload.name.split('.');  
-    var ts = Math.round(new Date().getTime()/1000)
-    var dirnameResize = dirname + "/" + im_parts[0] + ts +"."+ im_parts[1];
-    fs.writeFile(dirnameResize,fileToUpload,(err) => {
-        if (err)
-            return cb(err, "")
-            dirname = process.env.HOST_NAME+"/images/"+model_path+"/"+id+"/"+ im_parts[0] + ts +"."+ im_parts[1];
-            return cb(null, dirname)
-
-        
-    });
-
-}

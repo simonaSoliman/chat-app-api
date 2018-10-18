@@ -51,19 +51,6 @@ app.get('/', function(req, res){
 var routes = require('./api/routes/routers'); //importing route
 routes(app); //register the route
 
-//connection test for socket io
-// io.on('connect', (socket) => {
-//             console.log('Connected client on port %s.', this.port);
-//             socket.on('message', ( Message) => {
-//                 console.log('[server](message): %s', JSON.stringify(Message));
-//                 this.io.emit('message', Message);
-//             });
-
-//             socket.on('disconnect', () => {
-//                 console.log('Client disconnected');
-//             });
-//         });
-
 
 
 app.listen(port);
